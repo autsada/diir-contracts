@@ -63,24 +63,4 @@ library Helpers {
     function _requireNameFormatValid(string calldata name) internal pure {
         require(_nameFormatValid(name), "");
     }
-
-    /**
-     * A helper function to validate the uri is not too short.
-     * @param uri {string} - a uri to be validated
-     */
-    function _requireNotTooShortURI(string calldata uri) internal pure {
-        bytes memory bytesURI = bytes(uri);
-
-        require(Constants.MIN_URI_LENGTH <= bytesURI.length, "URI too short");
-    }
-
-    /**
-     * A helper function to validate a uri is not too long.
-     * @param uri {string} - a uri to be validated
-     */
-    function _requireNotTooLongURI(string calldata uri) internal pure {
-        bytes memory bytesURI = bytes(uri);
-
-        require(Constants.MAX_URI_LENGTH >= bytesURI.length, "URI too long");
-    }
 }

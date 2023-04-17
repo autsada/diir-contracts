@@ -2,9 +2,19 @@ import { ethers, upgrades } from "hardhat"
 import path from "path"
 import fs from "fs/promises"
 
+const { NODE_ENV, PRICE_FEED_ADDRESS_TESTNET, PRICE_FEED_ADDRESS_MAINNET } =
+  process.env
+
+const priceFeedAddress =
+  NODE_ENV === "production"
+    ? PRICE_FEED_ADDRESS_MAINNET
+    : PRICE_FEED_ADDRESS_TESTNET
+
 async function main() {
   const DiiRStation = await ethers.getContractFactory("DiiRStation")
-  const diirStation = await upgrades.deployProxy(DiiRStation)
+  const diirStation = await upgrades.deployProxy(DiiRStation, [
+    priceFeedAddress,
+  ])
 
   await diirStation.deployed()
 

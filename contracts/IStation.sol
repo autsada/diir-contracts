@@ -6,23 +6,8 @@ interface IStation {
      * An external function to mint a station nft.
      * @param to - an address to mint to.
      * @param name - a station name.
-     * @param uri - a uri points to the additional info of the nft, this typically is an ipfs cid that points to a json object file.
-     For DiiR app, we will store a name, a description, and an endpoint url that can be used to query a station data:
-     ===================
-        {
-            "name": <station name>,
-            "description": "The metadata of <station>",
-            "properties": {
-                uri: "<https://api.com>/<database_station_id>"
-            }
-        }
-     ===================
      */
-    function mint(
-        address to,
-        string calldata name,
-        string calldata uri
-    ) external;
+    function mint(address to, string calldata name) external;
 
     /**
      * An external function to validate name - validate length, special characters and uniqueness.
@@ -34,7 +19,19 @@ interface IStation {
     ) external view returns (bool valid);
 
     /**
-     * @param name {string} - a station name
+     * A withdraw funds function for contract owner.
+     * @dev Make sure to add `onlyRole(DEFAULT_ADMIN_ROLE` in the implementation function.
+     * @param to {address} - an address to transfer to
      */
-    function stationOwner(string calldata name) external view returns (address);
+    function withdraw(address to) external;
+
+    /**
+     * A function to send tips
+     */
+    function tip(string calldata name, uint256 qty) external payable;
+
+    /**
+     * A public function to calculate tips.
+     */
+    function calculateTips(uint256 qty) external view returns (uint256);
 }
